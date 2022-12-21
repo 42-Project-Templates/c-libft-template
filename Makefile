@@ -1,9 +1,11 @@
 NAME := template
 
-INCS := include
+LIBS_DIR := libs
+LIBFT_DIR := $(LIBS_DIR)/libft
+LDFLAGS := -L$(LIBFT_DIR)
+LDLIBS := -lft
 
-LDFLAGS :=
-LDLIBS :=
+INCS := include $(LIBFT_DIR)/include
 
 SRC_DIR := src
 BUILD_DIR := .build
@@ -33,6 +35,7 @@ thread: re
 print-%: ; @echo $* = $($*)
 
 $(NAME): $(BUILD_DIR) $(OBJS)
+	@make -sC $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) $(LDLIBS)
 
 $(BUILD_DIR):
@@ -42,9 +45,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
+	@make -sC $(LIBFT_DIR) clean
 	$(RM) $(BUILD_DIR)
 
 fclean: clean
+	@make -sC $(LIBFT_DIR) fclean
 	$(RM) $(NAME)
 
 re: fclean all
