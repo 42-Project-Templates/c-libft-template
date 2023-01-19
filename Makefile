@@ -34,6 +34,10 @@ thread: re
 
 print-%: ; @echo $* = $($*)
 
+submodules:
+	git submodule sync
+	git submodule update --init
+
 $(NAME): $(BUILD_DIR) $(OBJS)
 	@make -sC $(LIBFT_DIR)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) $(LDLIBS)
